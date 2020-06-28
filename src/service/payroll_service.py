@@ -44,10 +44,12 @@ class PayrollService:
         return result
 
     def add_time_report(self, time_report_name, time_report_header, time_report_content):
-        # ensure time_report_name is not duplicated
-        # insert new time_report_name
-        # insert report content
-        pass
+        if self.payroll_repository.get_time_report_by_name(time_report_name):
+            raise Exception(f"{time_report_name} has already been uploaded")
+
+        time_report_id = self.payroll_repository.add_time_report(time_report_name)
+
+        self.payroll_repository.add_time_report_info(time_report_id, time_report_content)
 
     def _date_to_pay_period(self, date):
         curr = datetime.strptime(date, "%Y-%m-%d")
