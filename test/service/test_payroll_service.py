@@ -25,8 +25,8 @@ def test_when_no_entries_return_empty(mock_get_employee_payroll_entries, service
 @patch.object(PayrollRepository, 'get_employee_payroll_entries')
 def test_when_employee1_entries_exist_return_proper_data(mock_get_employee_payroll_entries, service):
     # (time_report_id, date, hours_worked, employee_id, job_group)
-    employee1_entry1 = (1, "2020-01-04", 10, 1, "A")
-    expected = [{'employeeId': 1, 'payPeriod': {'startDate': '2020-01-01', 'endDate': '2020-01-15'}, 'amountPaid': '$200'}]
+    employee1_entry1 = (1, "04/01/2020", 10, 1, "A")
+    expected = [{'employeeId': 1, 'payPeriod': {'startDate': '2020-01-01', 'endDate': '2020-01-15'}, 'amountPaid': '$200.00'}]
     mock_get_employee_payroll_entries.return_value = [employee1_entry1]
 
     result = service.get_employee_report()
@@ -38,8 +38,8 @@ def test_when_employee1_entries_exist_return_proper_data(mock_get_employee_payro
 @patch.object(PayrollRepository, 'get_employee_payroll_entries')
 def test_when_employee1_entries_exist_return_proper_data2(mock_get_employee_payroll_entries, service):
     # (time_report_id, date, hours_worked, employee_id, job_group)
-    employee1_entry1 = (1, "2020-01-17", 10, 1, "A")
-    expected = [{'employeeId': 1, 'payPeriod': {'startDate': '2020-01-16', 'endDate': '2020-01-31'}, 'amountPaid': '$200'}]
+    employee1_entry1 = (1, "17/01/2020", 10, 1, "A")
+    expected = [{'employeeId': 1, 'payPeriod': {'startDate': '2020-01-16', 'endDate': '2020-01-31'}, 'amountPaid': '$200.00'}]
     mock_get_employee_payroll_entries.return_value = [employee1_entry1]
 
     result = service.get_employee_report()
