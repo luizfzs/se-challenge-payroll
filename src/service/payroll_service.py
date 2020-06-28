@@ -59,6 +59,3 @@ class PayrollService:
             rounded_end = (curr + relativedelta(months=1)).replace(day=1) + timedelta(days=-1)
 
         return rounded_begin.strftime("%Y-%m-%d"), rounded_end.strftime("%Y-%m-%d")
-
-    def _job_group_to_pay_rate(self, job_group):
-        return 20 if job_group == "A" else 30
