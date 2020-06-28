@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 import inject
 
 from src.repository.payroll_repository import PayrollRepository
+from src.service.service_exceptions import TimeReportAlreadyExistsException
 
 
 class PayrollService:
@@ -36,23 +37,22 @@ class PayrollService:
                             "startDate": pay_period[0],
                             "endDate": pay_period[1]
                         },
-                        "amountPaid": f"${amount}"
+                        "amountPaid": f"${amount:.2f}"
                     }
                 )
 
-        print(result)
         return result
 
     def add_time_report(self, time_report_name, time_report_header, time_report_content):
         if self.payroll_repository.get_time_report_by_name(time_report_name):
-            raise Exception(f"{time_report_name} has already been uploaded")
+            raise TimeReportAlreadyExistsException(time_report_name)
 
         time_report_id = self.payroll_repository.add_time_report(time_report_name)
 
         self.payroll_repository.add_time_report_info(time_report_id, time_report_content)
 
     def _date_to_pay_period(self, date):
-        curr = datetime.strptime(date, "%Y-%m-%d")
+        curr = datetime.strptime(date, "%d/%m/%Y")
         if (curr.day // 16) == 0:
             rounded_begin = curr.replace(day=((curr.day // 16) * 15) + 1)
             rounded_end = curr.replace(day=15)

@@ -8,6 +8,7 @@ from flask import jsonify, request, make_response
 from flask_restful import Resource
 
 from src.service.payroll_service import PayrollService
+from src.service.service_exceptions import TimeReportAlreadyExistsException
 
 
 class PayrollApi(Resource):
@@ -30,10 +31,13 @@ class PayrollApi(Resource):
         if not valid:
             return make_response(f"{self.invalid_file_format_message}: {invalid_names}", 400)
 
-        for k, v in uploaded_files.items():
-            reader = csv.reader(StringIO(v.read().decode("utf-8")))
-            rows = [row for row in reader]
-            self.payroll_service.add_time_report(v.filename, rows[0], rows[1:])
+        try:
+            for k, v in uploaded_files.items():
+                reader = csv.reader(StringIO(v.read().decode("utf-8")))
+                rows = [row for row in reader]
+                self.payroll_service.add_time_report(v.filename, rows[0], rows[1:])
+        except TimeReportAlreadyExistsException as e:
+            return make_response(f"The uploaded time report already exists on the system: {e.report_name}", 400)
 
     def _validate_uploaded_file_format(self, file_names: List[str]):
         print(file_names)
