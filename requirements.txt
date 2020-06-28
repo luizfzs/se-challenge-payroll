@@ -1,4 +1,5 @@
-flask
+flask~=1.1.2
 flask-restful
-inject
-pytest
+inject~=4.2.0
+pytest~=5.4.3
+python-dateutil~=2.8.1
