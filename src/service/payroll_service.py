@@ -46,7 +46,7 @@ class PayrollService:
 
         return result
 
-    def add_time_report(self, time_report_name, time_report_header, time_report_content):
+    def add_time_report(self, time_report_name, time_report_content):
         if self.payroll_repository.get_time_report_by_name(time_report_name):
             raise TimeReportAlreadyExistsException(time_report_name)
 

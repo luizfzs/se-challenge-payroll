@@ -35,7 +35,7 @@ class PayrollApi(Resource):
             for k, v in uploaded_files.items():
                 reader = csv.reader(StringIO(v.read().decode("utf-8")))
                 rows = [row for row in reader]
-                self.payroll_service.add_time_report(v.filename, rows[0], rows[1:])
+                self.payroll_service.add_time_report(v.filename, rows[1:])
         except TimeReportAlreadyExistsException as e:
             return make_response(f"The uploaded time report already exists on the system: {e.report_name}", 400)
 
