@@ -17,6 +17,7 @@ class PayrollApi(Resource):
     valid_time_report_regex_pattern = re.compile(valid_time_report_regex)
     invalid_file_format_message = "One or more file names are not following the predefined format"
     no_uploaded_files_message = "Upload at least one file"
+    duplicated_report_message = "The uploaded time report already exists on the system"
 
     def get(self):
         full_report = {"employeeReports": self.payroll_service.get_employee_report()}
@@ -37,10 +38,9 @@ class PayrollApi(Resource):
                 rows = [row for row in reader]
                 self.payroll_service.add_time_report(v.filename, rows[1:])
         except TimeReportAlreadyExistsException as e:
-            return make_response(f"The uploaded time report already exists on the system: {e.report_name}", 400)
+            return make_response(f"{self.duplicated_report_message}: {e.report_name}", 400)
 
     def _validate_uploaded_file_format(self, file_names: List[str]):
-        print(file_names)
         invalid_file_names = []
         for name in file_names:
             if not self.valid_time_report_regex_pattern.match(name):
