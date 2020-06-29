@@ -1,3 +1,56 @@
+# How to run
+
+After cloning the repository and `cd`'ing inside it the newly created directory, perform the following steps. 
+## Create a virtual environment to run the application
+Run ```python3 -m venv app-env```
+
+where `app-env` can be any arbitrary name for the virtual environment. If you use something else, remember to be consistent.  
+
+## Activate the virtual environment
+Run ```source app-env/bin/activate```
+
+## Install the application requirements
+Run ```python3 -m pip install -r requirements.txt```
+
+## Run the application
+In order for it to work properly on the command line, you will need to specify the current directory in `PYTHONPATH` environment variable.
+
+If, for example, the cloned repository is on `/tmp/se-challenge-payroll`, run the following command:
+
+```PYTHONPATH=/tmp/se-challenge-payroll/ python3 src/app.py```
+
+**Note**: Overriding `PYTHONPATH` is necessary so the Python runtime can find the application modules when they are imported.
+
+At this point, the application should be running on port 8080.
+
+# About the application
+This application offers a single endpoint (`/payroll`), that supports GET and POST operations. For data persistence, it uses SQLite.
+It also uses `inject` library for dependency injection.
+## Endpoint 
+This application features only 1 endpoint, that allows both GET and POST operations
+
+### GET /payroll
+This endpoint will return the payroll information of all the uploaded time reports, following the format specified in the requirements.
+
+### POST /payroll
+This endpoint accepts a CSV file, whose file name follows the requirements. It assumes the fields contains valid data.
+
+## Q & A
+Q: How did you test that your implementation was correct?
+
+A :The code base has some unit tests (mainly for API layer), but given the time constraints, I moved to working on building the features.
+In addition, I did make some requests to the API to assert the expected behavior e.g trying to upload a file with wrong format name, getting the payroll without any data uploaded, etc.
+
+
+Q: If this application was destined for a production environment, what would you add or change?
+
+A: I would definitely add some logging to it, so it's easier to see the behavior in a production environment. 
+Even if this application were to be on a `hidden layer` it would be a good idea to have authentication, since it handles financial data.
+
+Q: What compromises did you have to make as a result of the time constraints of this challenge?
+
+A: I didn't add many test cases to the unit test suite as I would like to.
+
 # Wave Software Development Challenge
 
 Applicants for the Full-stack Developer role at Wave must
