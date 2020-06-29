@@ -41,6 +41,9 @@ class PayrollService:
                     }
                 )
 
+        # sorting ascending by employee_id and period_start
+        result.sort(key=lambda row: (row["employeeId"], row["payPeriod"]["startDate"]))
+
         return result
 
     def add_time_report(self, time_report_name, time_report_header, time_report_content):
@@ -54,10 +57,10 @@ class PayrollService:
     def _date_to_pay_period(self, date):
         curr = datetime.strptime(date, "%d/%m/%Y")
         if (curr.day // 16) == 0:
-            rounded_begin = curr.replace(day=((curr.day // 16) * 15) + 1)
-            rounded_end = curr.replace(day=15)
+            period_start = curr.replace(day=((curr.day // 16) * 15) + 1)
+            period_end = curr.replace(day=15)
         else:
-            rounded_begin = curr.replace(day=((curr.day // 16) * 16))
-            rounded_end = (curr + relativedelta(months=1)).replace(day=1) + timedelta(days=-1)
+            period_start = curr.replace(day=((curr.day // 16) * 16))
+            period_end = (curr + relativedelta(months=1)).replace(day=1) + timedelta(days=-1)
 
-        return rounded_begin.strftime("%Y-%m-%d"), rounded_end.strftime("%Y-%m-%d")
+        return period_start.strftime("%Y-%m-%d"), period_end.strftime("%Y-%m-%d")
