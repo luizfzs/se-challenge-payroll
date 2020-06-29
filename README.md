@@ -1,6 +1,6 @@
 # How to run
 
-After cloning the repository and `cd`'ing inside it the newly created directory, perform the following steps. 
+After cloning the repository and `cd`'ing inside the newly created directory, perform the following steps. 
 ## Create a virtual environment to run the application
 Run ```python3 -m venv app-env```
 
@@ -40,7 +40,6 @@ Q: How did you test that your implementation was correct?
 
 A :The code base has some unit tests (mainly for API layer), but given the time constraints, I moved to working on building the features.
 In addition, I did make some requests to the API to assert the expected behavior e.g trying to upload a file with wrong format name, getting the payroll without any data uploaded, etc.
-
 
 Q: If this application was destined for a production environment, what would you add or change?
 
